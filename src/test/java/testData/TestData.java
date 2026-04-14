@@ -21,4 +21,6 @@ public class TestData {
     public static String city = "Delhi";
     public static String dateOfBirth = "14 April,2000";
     public static String messageAfterSubmitting = "Thanks for submitting the form";
+    public static String userName = "Ivan Sidorov";
+    public static String permanentAddress = "Tomsk/Mokrushina";
 }
