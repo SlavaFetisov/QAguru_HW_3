@@ -29,7 +29,7 @@ public class PracticeFormTests extends TestBase {
         $("#hobbiesWrapper").$(byText(hobbieMusic)).click();
         $("#hobbiesWrapper").$(byText(hobbieSports)).click();
         $("#hobbiesWrapper").$(byText(hobbieReading)).click();
-        $("#uploadPicture").uploadFromClasspath("picture.png");
+        $("#uploadPicture").uploadFromClasspath(nameOfFile);
         $("#currentAddress").setValue(currentAddress);
         $("#react-select-3-input").setValue(country).pressEnter();
         $("#react-select-4-input").setValue(city).pressEnter();
