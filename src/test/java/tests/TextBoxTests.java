@@ -1,46 +1,62 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
-import static testData.TestData.*;
+import pages.TextBoxPage;
+import testData.TestData;
 
 public class TextBoxTests extends TestBase {
 
+    TextBoxPage textBoxPage = new TextBoxPage();
+    TestData testData = new TestData();
+
     @Test
     void successfullFillFormTest() {
-        open("/text-box");
-        $("#userName").setValue(userName);
-        $("#userEmail").setValue(userEmail);
-        $("#currentAddress").setValue(currentAddress);
-        $("#permanentAddress").setValue(permanentAddress);
-        $("#submit").click();
+        textBoxPage.openPage()
+                .typeUserName(testData.firstName)
+                .typeUserEmail(testData.userEmail)
+                .typeCurrentAddress(testData.currentAddress)
+                .typePermanentAddress(testData.permanentAddress)
+                .submitButton()
+                .checkField("name", testData.firstName)
+                .checkField("email", testData.userEmail)
+                .checkField("currentAddress", testData.currentAddress)
+                .checkField("permanentAddress", testData.permanentAddress);
 
-        $("#output #name").shouldHave(text(userName));
-        $("#output #email").shouldHave(text(userEmail));
-        $("#output #currentAddress").shouldHave(text(currentAddress));
-        $("#output #permanentAddress").shouldHave(text(permanentAddress));
     }
 
     @Test
-    void successfulMinFields() {
-        open("/text-box");
-        $("#userName").setValue(userName);
-        $("#submit").click();
+    void successfullFillFormWithoutAddressTest() {
+        textBoxPage.openPage()
+                .typeUserName(testData.firstName)
+                .typeUserEmail(testData.userEmail)
+                .submitButton()
+                .checkField("name", testData.firstName)
+                .checkField("email", testData.userEmail);
+    }
 
-        $("#output #name").shouldHave(text(userName));
-
+    @Test
+    void successfullFillFormWithoutAddressTest_chaining() {
+        textBoxPage.openPage()
+                .typeUserName(testData.firstName)
+                .typeUserEmail(testData.userEmail)
+                .submitButton()
+                .checkField("name", testData.firstName)
+                .checkField("email", testData.userEmail);
     }
 
     @Test
     void negativeFillFormTest() {
-        open("/text-box");
-        $("#userEmail").setValue("123");
-        $("#submit").click();
-        $(".field-error").shouldHave(visible);
+        textBoxPage.openPage()
+                .typeUserEmail(testData.wrongEmail)
+                .submitButton()
+                .checkFieldError();
     }
 
+    @Test
+    void miniFieldTest() {
+        textBoxPage.openPage()
+                .typeUserName(testData.firstName)
+                .submitButton()
+                .checkField("name", testData.firstName);
+    }
 }

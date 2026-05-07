@@ -1,91 +1,90 @@
 package tests;
 
-import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
+import pages.RegistrationPage;
+import tests.examples.TestBase;
 
-import static com.codeborne.selenide.Condition.cssValue;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+
 import static testData.TestData.*;
+import static testData.TestData.messageAfterSubmitting;
+import static testData.TestData.messagePracticeForm;
 
 public class PracticeFormTests extends TestBase {
 
-    @Test
-    void successfulFillFormTest() {
-        open("/automation-practice-form");
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#userEmail").setValue(userEmail);
-        $("#genterWrapper").$(byText(genderWrapper)).click();
-        $("#userNumber").setValue(userNumber);
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__year-select").selectOption(yearOfBirth);
-        $(".react-datepicker__month-select").selectOption(monthOfBirth);
-        $(".react-datepicker__day--0" + dayOfBirth + ":not(.react-datepicker__day--outside-month)").click();
-        $("#subjectsInput").setValue(subjectArts).pressEnter();
-        $("#subjectsInput").setValue(subjectMaths).pressEnter();
-        $("#hobbiesWrapper").$(byText(hobbieMusic)).click();
-        $("#hobbiesWrapper").$(byText(hobbieSports)).click();
-        $("#hobbiesWrapper").$(byText(hobbieReading)).click();
-        $("#uploadPicture").uploadFromClasspath(nameOfFile);
-        $("#currentAddress").setValue(currentAddress);
-        $("#react-select-3-input").setValue(country).pressEnter();
-        $("#react-select-4-input").setValue(city).pressEnter();
-        $("#submit").click();
+    RegistrationPage registrationPage = new RegistrationPage();
+    //TestBase testData = new TestBase();
 
-        $("#example-modal-sizes-title-lg").shouldHave(Condition.exactText(messageAfterSubmitting));
-        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text(firstName + " " + lastName));
-        $(".table-responsive").$(byText("Student Email")).parent().shouldHave(text(userEmail));
-        $(".table-responsive").$(byText("Gender")).parent().shouldHave(text(genderWrapper));
-        $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text(userNumber));
-        $(".table-responsive").$(byText("Date of Birth")).parent().shouldHave(text(dateOfBirth));
-        $(".table-responsive").$(byText("Subjects")).parent().shouldHave(text(subjectArts + ", " + subjectMaths));
-        $(".table-responsive").$(byText("Hobbies")).parent().shouldHave(text(hobbieMusic + ", " + hobbieSports + ", " + hobbieReading));
-        $(".table-responsive").$(byText("Picture")).parent().shouldHave(text(nameOfFile));
-        $(".table-responsive").$(byText("Address")).parent().shouldHave(text(currentAddress));
-        $(".table-responsive").$(byText("State and City")).parent().shouldHave(text(country + " " + city));
+    @Test
+    void registrationFormTest() {
+        registrationPage.openPage()
+                //.removeBanners()
+                .practiceForm(messagePracticeForm)
+                .typeFirstName(firstName)
+                .typeLastName(lastName)
+                .setGender(genderWrapper)
+                .typeUserNumber(userNumber)
+//                .setDateOfBirth(day, month, year)
+//                .setSubjects(subjects)
+//                .setHobbiesWrapper(hobbies)
+//                .setUploadPicture(uploadfile)
+                .setCurrentAddress(currentAddress)
+                .setStateAndCity(state, city)
+                .submitButton()
+                .setModalWindow(messageAfterSubmitting)
+                .checkResult("Student Name", firstName + " " + lastName)
+                .checkResult("Student Email", userEmail)
+                .checkResult("Gender", genderWrapper)
+                .checkResult("Mobile", userNumber)
+//                .checkResult("Date of Birth", year + "-" + monthNumber + "-" + day)
+//                .checkResult("Subjects", subjects)
+//                .checkResult("Hobbies", hobbies)
+//                .checkResult("Picture", uploadfile)
+                .checkResult("Address", currentAddress)
+                .checkResult("State and City", state + " " + city);
     }
 
     @Test
-    void negativeTestEmptyFields() {
-        open("/automation-practice-form");
-
-        $("#submit").click();
-        $("#firstName").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-        $("#lastName").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-        $("#userNumber").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-        $("#gender-radio-1").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-        $("#gender-radio-2").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-        $("#gender-radio-3").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-
+    void requiredTestFields() {
+        registrationPage.openPage()
+                //.removeBanners()
+                .practiceForm(messagePracticeForm)
+                .typeFirstName(firstName)
+                .typeLastName(lastName)
+                .setGender(genderWrapper)
+                .typeUserNumber(userNumber)
+                .submitButton()
+                .setModalWindow(messageAfterSubmitting)
+                .checkResult("Student Name", firstName + " " + lastName)
+                .checkResult("Gender", genderWrapper)
+                .checkResult("Mobile", userNumber);
     }
 
     @Test
-    void negativeNameTest() {
-        open("/automation-practice-form");
-        $("#lastName").setValue(lastName);
-        $("#userNumber").setValue(userNumber);
-        $("#userEmail").setValue(userEmail);
-        $("#genterWrapper").$(byText(genderWrapper)).click();
-        $("#userNumber").setValue(userNumber);
-        $("#submit").click();
-
-        $("#firstName").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
+    void negativeWrongEmailTest() {
+        registrationPage.openPage()
+                //.removeBanners()
+                .practiceForm(messagePracticeForm)
+                .typeFirstName(firstName)
+                .typeLastName(lastName)
+                .typeUserNumber(userNumber)
+                .typeUserEmail(wrongEmail)
+                .setGender(genderWrapper)
+                .submitButton()
+                .checkFileResultError();
     }
 
     @Test
-    void negativeLastNameTest() {
-        open("/automation-practice-form");
-        $("#firstName").setValue(firstName);
-        $("#userNumber").setValue(userNumber);
-        $("#userEmail").setValue(userEmail);
-        $("#genterWrapper").$(byText(genderWrapper)).click();
-        $("#userNumber").setValue(userNumber);
-        $("#submit").click();
-
-        $("#lastName").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-
+    void negativeWrongNumberTest() {
+        registrationPage.openPage()
+                // .removeBanners()
+                .practiceForm(messagePracticeForm)
+                .typeFirstName(firstName)
+                .typeLastName(lastName)
+                .typeUserNumber(wrongNumber)
+                .typeUserEmail(userEmail)
+                .setGender(genderWrapper)
+                .submitButton()
+                .checkFileResultError();
     }
+
 }

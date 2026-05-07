@@ -17,10 +17,13 @@ public class TestData {
     public static String hobbieMusic = "Music";
     public static String nameOfFile = "picture.png";
     public static String currentAddress = "Tomsk";
-    public static String country = "NCR";
+    public static String state = "NCR";
     public static String city = "Delhi";
-    public static String dateOfBirth = "14 April,2000";
+    public static String dateOfBirth = "2000-04-14";
     public static String messageAfterSubmitting = "Thanks for submitting the form";
     public static String userName = "Ivan Sidorov";
     public static String permanentAddress = "Tomsk/Mokrushina";
+    public static String messagePracticeForm = "Student Registration Form";
+    public static String wrongEmail = "test@.test";
+    public static String wrongNumber = "123";
 }
