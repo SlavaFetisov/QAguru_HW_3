@@ -12,7 +12,6 @@ import static testData.TestData.messagePracticeForm;
 public class PracticeFormTests extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
-    //TestBase testData = new TestBase();
 
     @Test
     void registrationFormTest() {
@@ -23,10 +22,10 @@ public class PracticeFormTests extends TestBase {
                 .typeLastName(lastName)
                 .setGender(genderWrapper)
                 .typeUserNumber(userNumber)
-//                .setDateOfBirth(day, month, year)
-//                .setSubjects(subjects)
-//                .setHobbiesWrapper(hobbies)
-//                .setUploadPicture(uploadfile)
+                .setDateOfBirth(dayOfBirth, monthOfBirth, yearOfBirth)
+                .setSubjects(subjectArts)
+                .setHobbiesWrapper(hobbieSports)
+                .setUploadPicture(nameOfFile)
                 .setCurrentAddress(currentAddress)
                 .setStateAndCity(state, city)
                 .submitButton()
@@ -35,10 +34,9 @@ public class PracticeFormTests extends TestBase {
                 .checkResult("Student Email", userEmail)
                 .checkResult("Gender", genderWrapper)
                 .checkResult("Mobile", userNumber)
-//                .checkResult("Date of Birth", year + "-" + monthNumber + "-" + day)
-//                .checkResult("Subjects", subjects)
-//                .checkResult("Hobbies", hobbies)
-//                .checkResult("Picture", uploadfile)
+                .checkResult("Date of Birth", yearOfBirth + "-" + monthOfBirth + "-" + dayOfBirth)
+                .checkResult("Subjects", subjectArts)
+                .checkResult("Hobbies", hobbieSports)
                 .checkResult("Address", currentAddress)
                 .checkResult("State and City", state + " " + city);
     }
