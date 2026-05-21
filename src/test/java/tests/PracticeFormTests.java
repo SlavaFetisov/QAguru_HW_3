@@ -16,7 +16,7 @@ public class PracticeFormTests extends TestBase {
     @Test
     void registrationFormTest() {
         registrationPage.openPage()
-                //.removeBanners()
+                .removeBanners()
                 .practiceForm(messagePracticeForm)
                 .typeFirstName(firstName)
                 .typeLastName(lastName)
@@ -35,8 +35,8 @@ public class PracticeFormTests extends TestBase {
                 .checkResult("Gender", genderWrapper)
                 .checkResult("Mobile", userNumber)
                 .checkResult("Date of Birth", yearOfBirth + "-" + monthOfBirth + "-" + dayOfBirth)
-                .checkResult("Subjects", subjectArts)
-                .checkResult("Hobbies", hobbieSports)
+                .checkResult("Subjects", subjectArts + subjectMaths)
+                .checkResult("Hobbies", hobbieSports + hobbieReading + hobbieMusic)
                 .checkResult("Address", currentAddress)
                 .checkResult("State and City", state + " " + city);
     }
@@ -44,7 +44,7 @@ public class PracticeFormTests extends TestBase {
     @Test
     void requiredTestFields() {
         registrationPage.openPage()
-                //.removeBanners()
+                .removeBanners()
                 .practiceForm(messagePracticeForm)
                 .typeFirstName(firstName)
                 .typeLastName(lastName)
@@ -60,7 +60,7 @@ public class PracticeFormTests extends TestBase {
     @Test
     void negativeWrongEmailTest() {
         registrationPage.openPage()
-                //.removeBanners()
+                .removeBanners()
                 .practiceForm(messagePracticeForm)
                 .typeFirstName(firstName)
                 .typeLastName(lastName)
@@ -74,7 +74,7 @@ public class PracticeFormTests extends TestBase {
     @Test
     void negativeWrongNumberTest() {
         registrationPage.openPage()
-                // .removeBanners()
+                .removeBanners()
                 .practiceForm(messagePracticeForm)
                 .typeFirstName(firstName)
                 .typeLastName(lastName)

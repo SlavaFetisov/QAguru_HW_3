@@ -6,7 +6,8 @@ import testData.TestData;
 
 public class TextBoxTests extends TestBase {
 
-    TextBoxPage textBoxPage = new TextBoxPage();
+    protected static TextBoxPage textBoxPage = new TextBoxPage();
+   // TextBoxPage textBoxPage = new TextBoxPage();
     TestData testData = new TestData();
 
     @Test

@@ -7,7 +7,6 @@ import pages.components.ResultTableComponent;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
-import static testData.TestData.nameOfFile;
 
 
 public class RegistrationPage {
@@ -32,6 +31,7 @@ public class RegistrationPage {
     private final SelenideElement modalDialog = $(".modal-dialog");
     private final SelenideElement modalMessage = $("#example-modal-sizes-title-lg");
     private final SelenideElement errorResult = $("#formError");
+    private final SelenideElement dateOfBirth = $("dateOfBirthInput");
 
     public RegistrationPage openPage() {
         open("/automation-practice-form");
@@ -39,12 +39,12 @@ public class RegistrationPage {
         return this;
     }
 
-//    public RegistrationPage removeBanners() {
-//        executeJavaScript("$('#fixedban').remove()");
-//        executeJavaScript("$('footer').remove()");
-//
-//        return this;
-//    }
+    public RegistrationPage removeBanners() {
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
+
+        return this;
+    }
 
     public RegistrationPage practiceForm(String value) {
         practiceFormWrapper.$(byText(value));
@@ -83,7 +83,7 @@ public class RegistrationPage {
     }
 
     public RegistrationPage setDateOfBirth(String day, String month, String year) {
-        $("#dateOfBirthInput").click();
+        dateOfBirth.click();
         calendar.setDate(day, month, year);
 
         return this;
