@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class TestBase {
 
-    protected static TextBoxPage textBoxPage = new TextBoxPage();
+   // protected static TextBoxPage textBoxPage = new TextBoxPage();
     protected TestData testData;
 
     @BeforeAll
