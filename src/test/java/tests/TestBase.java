@@ -21,11 +21,6 @@ public class TestBase {
         Configuration.timeout = 10000; // default 4000
     }
 
-    @BeforeEach
-    void initTestData() {
-        testData = new TestData();
-    }
-
     @AfterEach
     void closeDriver() {
         closeWebDriver();
