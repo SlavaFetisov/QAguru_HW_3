@@ -33,7 +33,7 @@ public class RandomUtils {
     }
 
     public static String getRandomImage() {
-        String[] image = {"picture.png","picture1.png","picture2.png"};
+        String[] image = {"picture.png","picture.png","picture.png"};
         return getRandomItemStringArray(image);
     }
 
