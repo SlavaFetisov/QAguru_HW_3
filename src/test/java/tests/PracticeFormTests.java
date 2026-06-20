@@ -1,88 +1,86 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
-import pages.RegistrationPage;
-import tests.examples.TestBase;
-
-
-import static testData.TestData.*;
-import static testData.TestData.messageAfterSubmitting;
-import static testData.TestData.messagePracticeForm;
 
 public class PracticeFormTests extends TestBase {
 
-    RegistrationPage registrationPage = new RegistrationPage();
-
     @Test
-    void registrationFormTest() {
+    void studentRegistrationForm() {
         registrationPage.openPage()
-                .removeBanners()
-                .practiceForm(messagePracticeForm)
-                .typeFirstName(firstName)
-                .typeLastName(lastName)
-                .setGender(genderWrapper)
-                .typeUserNumber(userNumber)
-                .setDateOfBirth(dayOfBirth, monthOfBirth, yearOfBirth)
-                .setSubjects(subjectArts)
-                .setHobbiesWrapper(hobbieSports)
-                .setUploadPicture(nameOfFile)
-                .setCurrentAddress(currentAddress)
-                .setStateAndCity(state, city)
-                .submitButton()
-                .setModalWindow(messageAfterSubmitting)
-                .checkResult("Student Name", firstName + " " + lastName)
-                .checkResult("Student Email", userEmail)
-                .checkResult("Gender", genderWrapper)
-                .checkResult("Mobile", userNumber)
-                .checkResult("Date of Birth", yearOfBirth + "-" + monthOfBirth + "-" + dayOfBirth)
-                .checkResult("Subjects", subjectArts + subjectMaths)
-                .checkResult("Hobbies", hobbieSports + hobbieReading + hobbieMusic)
-                .checkResult("Address", currentAddress)
-                .checkResult("State and City", state + " " + city);
+                .typeFirstName(testData.firstName)
+                .typeLastName(testData.lastName)
+                .typeUserEmail(testData.userEmail)
+                .typeUserNumber(testData.userNumber)
+                .typeGenderWrapper(testData.genderWrapper)
+                .setDateOfBirth(testData.dayOfBirth, testData.monthOfBirth, testData.yearOfBirth)
+                .selectSubject(testData.subject)
+                .selectHobbies(testData.hobbiesReading)
+                .loadPicture(testData.nameOfFile)
+                .typeCurrentAddress(testData.currentAddress)
+                .setStateAndCity(testData.state, testData.city)
+                .submitForm();
+
+        resultTableComponent.checkModalTitleWindowOpen()
+                .checkResult("Student Name", testData.userName)
+                .checkResult("Student Email", testData.userEmail)
+                .checkResult("Gender", testData.genderWrapper)
+                .checkResult("Mobile", testData.userNumber)
+                .checkResult("Date of Birth", testData.dateOfBirth)
+                .checkResult("Subjects", testData.subject)
+                .checkResult("Hobbies", testData.hobbiesReading)
+                .checkResult("Picture", testData.nameOfFile)
+                .checkResult("Address", testData.currentAddress)
+                .checkResult("State and City", testData.state + " " + testData.city);
+
     }
 
     @Test
-    void requiredTestFields() {
+    void onlyRequiredFields() {
         registrationPage.openPage()
-                .removeBanners()
-                .practiceForm(messagePracticeForm)
-                .typeFirstName(firstName)
-                .typeLastName(lastName)
-                .setGender(genderWrapper)
-                .typeUserNumber(userNumber)
-                .submitButton()
-                .setModalWindow(messageAfterSubmitting)
-                .checkResult("Student Name", firstName + " " + lastName)
-                .checkResult("Gender", genderWrapper)
-                .checkResult("Mobile", userNumber);
+                .typeFirstName(testData.firstName)
+                .typeLastName(testData.lastName)
+                .typeGenderWrapper(testData.genderWrapper)
+                .typeUserNumber(testData.userNumber)
+                .submitForm();
+
+        resultTableComponent.checkModalTitleWindowOpen()
+                .checkResult("Student Name", testData.userName)
+                .checkResult("Gender", testData.genderWrapper)
+                .checkResult("Mobile", testData.userNumber);
     }
 
     @Test
-    void negativeWrongEmailTest() {
+    void negativeNameFields() {
         registrationPage.openPage()
-                .removeBanners()
-                .practiceForm(messagePracticeForm)
-                .typeFirstName(firstName)
-                .typeLastName(lastName)
-                .typeUserNumber(userNumber)
-                .typeUserEmail(wrongEmail)
-                .setGender(genderWrapper)
-                .submitButton()
-                .checkFileResultError();
+                .typeLastName(testData.lastName)
+                .typeGenderWrapper(testData.genderWrapper)
+                .typeUserNumber(testData.userNumber)
+                .submitForm();
+
+        resultTableComponent.checkNotTable();
+
     }
 
     @Test
-    void negativeWrongNumberTest() {
+    void negativeLastNameFields() {
         registrationPage.openPage()
-                .removeBanners()
-                .practiceForm(messagePracticeForm)
-                .typeFirstName(firstName)
-                .typeLastName(lastName)
-                .typeUserNumber(wrongNumber)
-                .typeUserEmail(userEmail)
-                .setGender(genderWrapper)
-                .submitButton()
-                .checkFileResultError();
+                .typeFirstName(testData.firstName)
+                .typeGenderWrapper(testData.genderWrapper)
+                .typeUserNumber(testData.userNumber)
+                .submitForm();
+
+        resultTableComponent.checkNotTable();
+    }
+
+    @Test
+    void negativeGenderFields() {
+        registrationPage.openPage()
+                .typeFirstName(testData.firstName)
+                .typeLastName(testData.lastName)
+                .typeUserNumber(testData.userNumber)
+                .submitForm();
+
+        resultTableComponent.checkNotTable();
     }
 
 }
